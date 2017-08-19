@@ -38,11 +38,9 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
 
-    'rest_framework',
-
     # participa apps
     'participa.auth_sefaz',
-    'participa.denuncia',
+    'participa.report',
 ]
 
 MIDDLEWARE = [
@@ -129,3 +127,5 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 AUTH_USER_MODEL = 'auth_sefaz.User'
+SEFAZ_API_URL = 'http://hackathonapi.sefaz.al.gov.br'
+SEFAZ_APP_TOKEN = 'APP_TOKEN'

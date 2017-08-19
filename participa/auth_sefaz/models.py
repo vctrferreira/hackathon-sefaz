@@ -1,8 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin, UserManager
 
-import hashlib
-import json
 import locale
 
 from datetime import datetime
@@ -11,7 +9,6 @@ locale.setlocale(locale.LC_TIME, 'pt_BR.utf8')
 class User(AbstractBaseUser, PermissionsMixin):
 
 	username = models.CharField('Username', max_length=255, unique=True)
-	
 	nome = models.CharField('Nome completo', max_length=255)
 	email = models.EmailField('E-mail', unique=True)
 	is_active = models.BooleanField('Está ativo?', default=True, blank=True)
@@ -23,7 +20,7 @@ class User(AbstractBaseUser, PermissionsMixin):
 
 	type_choices = (('SU', 'Super User'),('C', 'Common User'),)
 
-	user_type = models.CharField('Tipo do usuário', max_length=2, choices=type_choices, default='A')
+	user_type = models.CharField('Tipo do usuário', max_length=2, choices=type_choices, default='C')
 
 	objects = UserManager()
 
@@ -41,9 +38,6 @@ class User(AbstractBaseUser, PermissionsMixin):
 	def get_full_name(self):
 		return str(self)
 
-
 	class Meta():
 		verbose_name = 'Usuário'
 		verbose_name_plural = 'Usuários'
-
-
