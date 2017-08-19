@@ -3,7 +3,7 @@ from django.http import JsonResponse
 from django.views.generic.base import View
 from django.views.decorators.csrf import csrf_exempt
 from django.db.models import Count
-from participa.settings import SEFAZ_API_URL
+from participa.settings import SEFAZ_API_URL, SEFAZ_APP_TOKEN_API_PRINCIPAL
 from participa.auth_sefaz.tasks import auth_token
 from participa.report.models import Report
 from .models import User
@@ -105,7 +105,7 @@ class BaseView(View, ParticipaSefazRequest):
 class SefazApiFacilitate(BaseView):
 
     def get_last_raffle(self, token):
-        raffles = json.loads(self.get_raffles(token))
+        raffles = json.loads(self.get_raffles(token), None)
         return max(raffles, key=lambda item:item['sequencial'])
 
     def get_points(self, user):
@@ -118,12 +118,12 @@ class SefazApiFacilitate(BaseView):
         if user and token:
 
             points = self.get_points(user)
-            credits = json.loads(self.get_credits(user, token)).get('valorCredito', None)
+            credits = json.loads(self.get_credits(user, token), None).get('valorCredito', None)
             last_raffle = self.get_last_raffle(token)
 
             date_comp = last_raffle.get('dataRealizacao', None)[:7].replace("-", "")
-            notes = json.loads(self.get_notes_by_date(date_comp, user, token))
-            notes_to_new_ticket = len(notes) % 10
+            notes = json.loads(self.get_notes_by_date(date_comp, user, token), None)
+            notes_to_new_ticket = len(notes)%10
 
             total_tickets = len(json.loads(self.get_tickets_by_seq(last_raffle.get('sequencial', None), user, token))) # talvez isso esteja errado, consultar os cara da api
 
@@ -131,15 +131,25 @@ class SefazApiFacilitate(BaseView):
                 "points": points,
                 "credits": credits,
                 "last_raffle": last_raffle,
-                "notes": notes,
-                "notes_to_new_ticket": notes_to_new_ticket,
-                "total_tickets": total_tickets 
+                "notes": notes_to_new_ticket,
+                "ticket_quantity": total_tickets 
             }
 
             return JsonResponse(final_object)
-            
 
-            
+        else:
+            return self.error_recive()
 
+class SefazApiGetAuth(BaseView):
 
+    def post(self, *args, **kwargs):
+        data = json.loads(str(self.request.body, "utf_8"))
+        if not User.objects.filter(cpf=data.get("cpf", None)).first():
+            new_user = User(cpf=data.get("cpf", None), name=data.get("name", None))
+            new_user.save()
+            if new_user:
+                return self.success_recive()
+        else:
+            return JsonResponse({"status": 401, "msg": "Usuário já registrado."}, status=401)
 
+        return self.error_recive()

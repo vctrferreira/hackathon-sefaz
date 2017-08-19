@@ -10,6 +10,7 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/1.11/ref/settings/
 """
 
+from celery.schedules import crontab
 import os
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
@@ -37,7 +38,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-
+    'redis',
+    'rest_framework',
     # participa apps
     'participa.auth_sefaz',
     'participa.report',
@@ -129,3 +131,18 @@ STATIC_URL = '/static/'
 AUTH_USER_MODEL = 'auth_sefaz.User'
 SEFAZ_API_URL = 'http://hackathonapi.sefaz.al.gov.br'
 SEFAZ_APP_TOKEN = 'APP_TOKEN'
+SEFAZ_APP_TOKEN_API_PRINCIPAL = '307bca15d6c5d9683c4ad960d8213443c284b5d3'
+
+CELERYBEAT_SCHEDULE = {
+    "update_daily_monitoreds": {
+        'task': 'update_daily_monitoreds',
+        'schedule': crontab(minute=0, hour=0),
+    }
+}
+
+REDIS_HOST = 'localhost'
+REDIS_PORT = 6379
+BROKER_URL = 'redis://localhost:6379/0'
+CELERY_ACCEPT_CONTENT = ['json']
+CELERY_TASK_SERIALIZER = 'json'
+CELERY_RESULT_SERIALIZER = 'json'
