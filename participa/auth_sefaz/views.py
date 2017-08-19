@@ -132,7 +132,7 @@ class SefazApiFacilitate(BaseView):
                 "credits": credits,
                 "last_raffle": last_raffle,
                 "notes": notes_to_new_ticket,
-                "ticket_quantity": total_tickets 
+                "number_of_tickets": total_tickets 
             }
 
             return JsonResponse(final_object)
