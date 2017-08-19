@@ -4,7 +4,6 @@ from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin, UserM
 import locale
 
 from datetime import datetime
-locale.setlocale(locale.LC_TIME, 'pt_BR.utf8')
 
 class User(AbstractBaseUser, PermissionsMixin):
 
