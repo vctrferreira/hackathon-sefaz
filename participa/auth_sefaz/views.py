@@ -1,15 +1,14 @@
-from django.shortcuts import render
 from django.http import JsonResponse
 from django.views.generic.base import View
 from django.views.decorators.csrf import csrf_exempt
-from django.db.models import Count
-from participa.settings import SEFAZ_API_URL, SEFAZ_APP_TOKEN_API_PRINCIPAL
+from participa.settings import SEFAZ_API_URL
 from participa.auth_sefaz.tasks import auth_token
 from participa.report.models import Report
 from .models import User
 
 import requests
 import json
+
 
 class ParticipaSefazRequest(object):
 
@@ -42,16 +41,16 @@ class ParticipaSefazRequest(object):
             return response
         else:
             return None
-    
+
     def get_raffles(self, token):
         url = "%s/sfz-nfcidada-api/api/public/sorteio" % SEFAZ_API_URL
         response = self._request(url, headers=self.get_request_headers(token))
-        
+
         if response.status_code == 200:
             return response.text
         else:
             return None
-    
+
     def get_credits(self, user, token):
         url = "%s/sfz-nfcidada-api/api/public/consultarCredito/%s" % (SEFAZ_API_URL, user.cpf)
         response = self._request(url, headers=self.get_request_headers(token))
@@ -106,7 +105,7 @@ class SefazApiFacilitate(BaseView):
 
     def get_last_raffle(self, token):
         raffles = json.loads(self.get_raffles(token), None)
-        return max(raffles, key=lambda item:item['sequencial'])
+        return max(raffles, key=lambda item: item['sequencial'])
 
     def get_points(self, user):
         return Report.objects.filter(user=user, status='2').count()
@@ -140,7 +139,8 @@ class SefazApiFacilitate(BaseView):
         else:
             return self.error_recive()
 
-class SefazApiGetAuth(BaseView):
+
+class SefazApiSetNewUser(BaseView):
 
     def post(self, *args, **kwargs):
         data = json.loads(str(self.request.body, "utf_8"))

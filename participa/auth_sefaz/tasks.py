@@ -13,7 +13,7 @@ def auth_token(f):
     def verify(request, *args, **kwargs):
         # try:
         token = json.loads(str(request.request.body, "utf_8")).get('api_auth_token', None)
-        
+
         if token == SEFAZ_APP_TOKEN:
             return f(request, *args, **kwargs)
         else:

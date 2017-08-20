@@ -5,6 +5,7 @@ from django.conf import settings
 import celery
 import os
 
+
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'participa.settings')
 
 app = celery.Celery('participa')
