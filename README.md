@@ -14,7 +14,7 @@ This README would normally document whatever steps are necessary to get your app
 * Run 'pip freeze -r pip-freeze.txt' to install python deps
 * Dependencies DB is Postgres and Redis
 * Database configuration in settings.py
-* How to run tests
+* Run tests with command 'python manage.py test'
 * Deployment: Change django settings debug to false, run in gunicorn server
 
 ### Contribution guidelines ###
