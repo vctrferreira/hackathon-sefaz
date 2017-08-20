@@ -13,7 +13,13 @@
 * Dependencies DB is Postgres and Redis
 * Database configuration in settings.py
 * Run tests with command 'python manage.py test'
-* Deployment: Change django settings debug to false, run in gunicorn server
+* Development:
+	** Run traditionl django manager with 'python manager.py runserver'
+* Deployment: 
+	** Change django settings debug to false
+	** Run in gunicorn server
+	** Run celery with nohup 'nohup celery -A participa worker -l info &'
+
 
 ### Contribution guidelines ###
 
