@@ -28,6 +28,9 @@ class User(AbstractBaseUser, PermissionsMixin):
 
 	def get_full_name(self):
 		return str(self)
+	
+	def get_short_name(self):
+		return str(self)
 
 	class Meta():
 		verbose_name = 'Usuário'

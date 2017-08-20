@@ -56,4 +56,6 @@ class QRCodeMonitorListView(BaseView):
             monitoreds_serialized = dict(monitoreds=list(monitoreds.values('pk', 'status', 'qr_code_data', 'created_at', 'updated_at')))
 
             return JsonResponse(monitoreds_serialized)
+        else:
+            return self.error_recive()
     
