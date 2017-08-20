@@ -17,4 +17,4 @@
 
 ### Contribution guidelines ###
 
-* Tests coverage minimum 90% of applications
+* Tests coverage minimum 90% of application
