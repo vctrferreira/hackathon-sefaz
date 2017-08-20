@@ -16,9 +16,9 @@
 * Development:
 	** Run traditionl django manager with 'python manager.py runserver'
 * Deployment: 
-	** Change django settings debug to false
-	** Run in gunicorn server
-	** Run celery with nohup 'nohup celery -A participa worker -l info &'
+	- Change django settings debug to false
+	- Run in gunicorn server
+	- Run celery with nohup 'nohup celery -A participa worker -l info &'
 
 
 ### Contribution guidelines ###
