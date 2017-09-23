@@ -12,6 +12,7 @@ https://docs.djangoproject.com/en/1.11/ref/settings/
 
 from celery.schedules import crontab
 import os
+from decouple import config
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -81,12 +82,12 @@ WSGI_APPLICATION = 'participa.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'participa_api',
-        'USER': 'postgres',
-        'PASSWORD': 'postgres',
-        'HOST': '127.0.0.1',
-        'PORT': '5432',
+        'ENGINE': 'django.db.backends.mysql', 
+        'NAME': 'DB_NAME',
+        'USER': 'DB_USER',
+        'PASSWORD': 'DB_PASSWORD',
+        'HOST': 'localhost',
+        'PORT': '3306',
     }
 }
 
@@ -130,8 +131,8 @@ USE_TZ = True
 STATIC_URL = '/static/'
 AUTH_USER_MODEL = 'auth_sefaz.User'
 SEFAZ_API_URL = 'http://hackathonapi.sefaz.al.gov.br'
-SEFAZ_APP_TOKEN = 'APP_TOKEN'
-SEFAZ_APP_TOKEN_API_PRINCIPAL = '307bca15d6c5d9683c4ad960d8213443c284b5d3'
+SEFAZ_APP_TOKEN = config('APP_TOKEN')
+SEFAZ_APP_TOKEN_API_PRINCIPAL = config('SEFAZ_APP_TOKEN_API_PRINCIPAL')
 
 CELERYBEAT_SCHEDULE = {
     "update_daily_monitoreds": {
