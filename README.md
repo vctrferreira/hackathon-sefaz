@@ -1,12 +1,10 @@
 # README #
 
-This README would normally document whatever steps are necessary to get your application up and running.
 
 ### What is this repository for? ###
 
-* Quick summary
-* Version
-* [Learn Markdown](https://bitbucket.org/tutorials/markdowndemo)
+* This is the API service to Participa - Iceberg Team based python 3.5.3 with django 1.11
+* Version 0.1
 
 ### How do I get set up? ###
 
@@ -15,15 +13,14 @@ This README would normally document whatever steps are necessary to get your app
 * Dependencies DB is Postgres and Redis
 * Database configuration in settings.py
 * Run tests with command 'python manage.py test'
-* Deployment: Change django settings debug to false, run in gunicorn server
+* Development:
+	** Run traditionl django manager with 'python manager.py runserver'
+* Deployment: 
+	- Change django settings debug to false
+	- Run in gunicorn server
+	- Run celery with nohup 'nohup celery -A participa worker -l info &'
+
 
 ### Contribution guidelines ###
 
-* Writing tests
-* Code review
-* Other guidelines
-
-### Who do I talk to? ###
-
-* Repo owner or admin
-* Other community or team contact
+* Tests coverage minimum 90% of application
