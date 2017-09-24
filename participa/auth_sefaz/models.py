@@ -19,9 +19,6 @@ class User(AbstractBaseUser, PermissionsMixin):
 	objects = UserManager()
 	USERNAME_FIELD = 'cpf'
 
-	email = models.CharField('E-mail', default="teste@teste.com",  max_length=255)
-	username = models.CharField('Username', default="username",  max_length=255)
-
 	def __str__(self):
 		return self.name or self.cpf
 
