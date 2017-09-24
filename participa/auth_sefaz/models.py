@@ -18,7 +18,7 @@ class User(AbstractBaseUser, PermissionsMixin):
 	user_type = models.CharField('Tipo do usuário', max_length=2, choices=type_choices, default='C')
 	objects = UserManager()
 	USERNAME_FIELD = 'cpf'
-	REQUIRED_FIELDS = []
+	REQUIRED_FIELDS = ['cpf']
 	def __str__(self):
 		return self.name or self.cpf
 
