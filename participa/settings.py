@@ -149,14 +149,12 @@ CELERY_ACCEPT_CONTENT = ['json']
 CELERY_TASK_SERIALIZER = 'json'
 CELERY_RESULT_SERIALIZER = 'json'
 
-PROJECT_ROOT = os.path.dirname(os.path.abspath(__file__))
-
-# Static files (CSS, JavaScript, Images)
-# https://docs.djangoproject.com/en/1.9/howto/static-files/
-STATIC_ROOT = os.path.join(PROJECT_ROOT, 'staticfiles')
-STATIC_URL = '/static/'
-
-# Extra places for collectstatic to find static files.
+import os
+BASE_DIR = os.path.dirname(os.path.abspath(file))
+STATIC_ROOT = 'staticfiles'
+STATIC_URL ='/static/'
+MEDIA_ROOT = os.path.join(PROJECT_PATH, "media")
+MEDIA_URL = "/media/"
 STATICFILES_DIRS = (
-    os.path.join(PROJECT_ROOT, 'static'),
+os.path.join(BASE_DIR, 'static'),
 )
