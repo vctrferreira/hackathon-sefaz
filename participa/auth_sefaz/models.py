@@ -17,8 +17,10 @@ class User(AbstractBaseUser, PermissionsMixin):
 	type_choices = (('SU', 'Super User'),('C', 'Common User'), )
 	user_type = models.CharField('Tipo do usuário', max_length=2, choices=type_choices, default='C')
 	objects = UserManager()
+	email = models.EmailField('E-mail', default="teste@teste.com", max_length=255)
+	username = models.CharField('Username', default="username",  max_length=255)
 	USERNAME_FIELD = 'cpf'
-	REQUIRED_FIELDS = ['cpf']
+	REQUIRED_FIELDS = ['email','username']
 	def __str__(self):
 		return self.name or self.cpf
 
