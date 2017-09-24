@@ -1,0 +1,1 @@
+web: gunicorn participa.wsgi --log-file -
