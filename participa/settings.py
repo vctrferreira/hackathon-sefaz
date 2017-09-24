@@ -149,12 +149,16 @@ CELERY_ACCEPT_CONTENT = ['json']
 CELERY_TASK_SERIALIZER = 'json'
 CELERY_RESULT_SERIALIZER = 'json'
 
-import os
-BASE_DIR = os.path.dirname(os.path.abspath(file))
-STATIC_ROOT = 'staticfiles'
-STATIC_URL ='/static/'
-MEDIA_ROOT = os.path.join(PROJECT_PATH, "media")
-MEDIA_URL = "/media/"
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+PROJECT_ROOT = os.path.dirname(os.path.abspath(__file__))
+
+STATIC_ROOT = os.path.join(PROJECT_ROOT, 'static')
+#STATIC_URL = '/static/'
+
 STATICFILES_DIRS = (
-os.path.join(BASE_DIR, 'static'),
+    os.path.join(PROJECT_ROOT, 'staticfiles'),
 )
+
+STATICFILES_STORAGE = 'whitenoise.django.GzipManifestStaticFilesStorage'
+
+STATIC_URL = '/static/'

@@ -21,4 +21,4 @@ urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^api/facilitate/', include('participa.auth_sefaz.urls')),
     url(r'^api/report/', include('participa.report.urls')),
-]
+]+ static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
