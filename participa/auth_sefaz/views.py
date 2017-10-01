@@ -5,6 +5,7 @@ from participa.settings import SEFAZ_API_URL
 from participa.auth_sefaz.tasks import auth_token
 from participa.report.models import Report
 from .models import User
+from django.db.models import Count
 
 import requests
 import json
@@ -155,13 +156,22 @@ class SefazApiSetNewUser(BaseView):
         return self.error_recive()
 
 class SefazApiRanking(BaseView):
-    def get_ranking(self):
-        Report.objects.values('id').filter(status='2').annotate(user_count=Count('user')).order_by('-user_count')[:5]
+    def get_ranking(self, user):
+        ranking = Report.objects.values("user__id").filter(status="2").annotate(points=Count("user__id")).order_by("-points")
+        for i, r in enumerate(ranking):
+            r["position"] = i+1
+        top_five = ranking[:5]
+        for r_user in ranking:
+            if r_user["user__id"] == user.id:
+                current_user = r_user
+                break
+        return top_five, current_user
 
     def post(self, *args, **kwargs):
         data = json.loads(str(self.request.body, "utf_8"))
         user = User.objects.filter(cpf=data.get("cpf", None)).first()
         if user:
-            return JsonResponse(self.get_ranking(user))
+            top_five, current_user = self.get_ranking(user)
+            return JsonResponse(dict(top_five=list(top_five), current_user=current_user))
 
         return self.error_recive()
