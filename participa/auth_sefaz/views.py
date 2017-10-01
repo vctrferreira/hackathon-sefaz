@@ -153,3 +153,15 @@ class SefazApiSetNewUser(BaseView):
             return JsonResponse({"status": 401, "msg": "Usuário já registrado."}, status=401)
 
         return self.error_recive()
+
+class SefazApiRanking(BaseView):
+    def get_ranking(self):
+        Report.objects.values('id').filter(status='2').annotate(user_count=Count('user')).order_by('-user_count')[:5]
+
+    def post(self, *args, **kwargs):
+        data = json.loads(str(self.request.body, "utf_8"))
+        user = User.objects.filter(cpf=data.get("cpf", None)).first()
+        if user:
+            return JsonResponse(self.get_ranking(user))
+
+        return self.error_recive()
