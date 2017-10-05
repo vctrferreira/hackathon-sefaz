@@ -158,6 +158,7 @@ class SefazApiSetNewUser(BaseView):
 class SefazApiRanking(BaseView):
     def get_ranking(self, user):
         ranking = Report.objects.values("user__id").filter(status="2").annotate(points=Count("user__id")).order_by("-points")
+        current_user = None
         for i, r in enumerate(ranking):
             r["position"] = i+1
         top_five = ranking[:5]
