@@ -165,13 +165,20 @@ class SefazApiRanking(BaseView):
             if r_user["user__id"] == user.id:
                 current_user = r_user
                 break
-        return top_five, current_user
+        if current_user in top_five:
+            current_user.update({"current_user": True})
+            top_five[top_five.index(current_user)] = current_user
+        else:
+            current_user.update({"current_user": True})
+            top_five.push(current_user)
+    
+        return top_five
 
     def post(self, *args, **kwargs):
         data = json.loads(str(self.request.body, "utf_8"))
         user = User.objects.filter(cpf=data.get("cpf", None)).first()
         if user:
-            top_five, current_user = self.get_ranking(user)
-            return JsonResponse(dict(top_five=list(top_five), current_user=current_user))
+            ranking = self.get_ranking(user)
+            return JsonResponse(dict(ranking=list(ranking)))
 
         return self.error_recive()
