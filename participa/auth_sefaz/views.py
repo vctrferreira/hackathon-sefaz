@@ -165,12 +165,13 @@ class SefazApiRanking(BaseView):
             if r_user["user__id"] == user.id:
                 current_user = r_user
                 break
-        if current_user in top_five:
-            current_user.update({"current_user": True})
-            top_five[top_five.index(current_user)] = current_user
-        else:
-            current_user.update({"current_user": True})
-            top_five.push(current_user)
+        if current_user:
+            if current_user in top_five:
+                current_user.update({"current_user": True})
+                top_five[top_five.index(current_user)] = current_user
+            else:
+                current_user.update({"current_user": True})
+                top_five.push(current_user)
     
         return top_five
 
