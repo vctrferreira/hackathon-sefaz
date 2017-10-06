@@ -181,6 +181,6 @@ class SefazApiRanking(BaseView):
         user = User.objects.filter(cpf=data.get("cpf", None)).first()
         if user:
             ranking = self.get_ranking(user)
-            return JsonResponse(dict(ranking=list(ranking)))
+            return JsonResponse(list(ranking))
 
         return self.error_recive()
